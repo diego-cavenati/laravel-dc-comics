@@ -25,7 +25,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.comics.create');
     }
 
     /**
@@ -36,7 +36,19 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //TODO: validata all request data
+
+        $comic = new Comic();
+        $comic->title = $request['title'];
+        $comic->description = $request['description'];
+        $comic->thumb = $request['thumb'];
+        $comic->price = $request['price'];
+        $comic->series = $request['series'];
+        $comic->sale_date = $request['sale_date'];
+        $comic->type = $request['type'];
+        $comic->save();
+
+        return to_route('comics.index')->with('message', "$comic->title added successfully");
     }
 
     /**
@@ -47,7 +59,8 @@ class ComicController extends Controller
      */
     public function show($id)
     {
-        //
+        $comic = Comic::find($id);
+        return view('admin.comics.show', compact($comic));
     }
 
     /**
@@ -56,9 +69,10 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($comic)
     {
-        //
+        // $comic = Comic::find($id);
+        return view('admin.comics.edit', compact('comic'));
     }
 
     /**
@@ -68,9 +82,22 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $comic)
     {
-        //
+
+        $data = [
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'thumb' => $request['thumb'],
+            'type' => $request['type'],
+            'price' => $request['price'],
+            'series' => $request['series'],
+            'sale_date' => $request['sale_date'],
+        ];
+
+        $comic->update($data);
+
+        return to_route('comics.index')->with('message', "$comic->title update successfully");
     }
 
     /**
@@ -81,6 +108,5 @@ class ComicController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }
