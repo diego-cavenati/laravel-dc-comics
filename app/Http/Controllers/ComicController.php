@@ -69,7 +69,7 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($comic)
+    public function edit(Comic $comic)
     {
         // $comic = Comic::find($id);
         return view('admin.comics.edit', compact('comic'));
@@ -82,22 +82,23 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $comic)
+    public function update(Request $request, Comic $comic)
     {
 
-        $data = [
-            'title' => $request['title'],
-            'description' => $request['description'],
-            'thumb' => $request['thumb'],
-            'type' => $request['type'],
-            'price' => $request['price'],
-            'series' => $request['series'],
-            'sale_date' => $request['sale_date'],
-        ];
+        // $data = [
+        //     'title' => $request['title'],
+        //     'description' => $request['description'],
+        //     'thumb' => $request['thumb'],
+        //     'type' => $request['type'],
+        //     'price' => $request['price'],
+        //     'series' => $request['series'],
+        //     'sale_date' => $request['sale_date'],
+        // ];
 
+        $data = $request->all();
         $comic->update($data);
 
-        return to_route('comics.index')->with('message', "$comic->title update successfully");
+        return to_route('comics.index', $comic->id);
     }
 
     /**
@@ -106,7 +107,9 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
+        $comic->delete();
+        return to_route('comics.index');
     }
 }
