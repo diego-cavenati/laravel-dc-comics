@@ -29,7 +29,7 @@ class UpdateComicRequest extends FormRequest
                 'required',
                 // Rule::unique('comics')->ignore($this->comic->id),
                 'min:2',
-                'max100'
+                'max:100'
             ],
             'description' => 'nullable|max:255',
             'thumb' => 'nullable',

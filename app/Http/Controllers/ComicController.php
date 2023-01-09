@@ -41,7 +41,7 @@ class ComicController extends Controller
     public function store(StoreComicRequest $request)
     {
         // Validate data
-        $val_data = $request->validate();
+        $val_data = $request->validated();
 
         // Save all data
         $comic = Comic::create($val_data);
@@ -103,7 +103,7 @@ class ComicController extends Controller
         //     'sale_date' => $request['sale_date'],
         // ];
 
-        $val_data = $request->validate();
+        $val_data = $request->validated();
         $comic->update($val_data);
 
         return to_route('comics.index', $comic->id);
