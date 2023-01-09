@@ -27,7 +27,7 @@ class UpdateComicRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                // Rule::unique('comics')->ignore($this->comic->id),
+                Rule::unique('comics')->ignore($this->comic->id),
                 'min:2',
                 'max:100'
             ],
